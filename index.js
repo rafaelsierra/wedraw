@@ -25,4 +25,8 @@ function handler(req, res) {
   });
 }
 
-
+io.sockets.on('connection', function(socket){
+  socket.on('draw', function(data){
+    socket.broadcast.emit('drawn', data);
+  })
+})
