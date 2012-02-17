@@ -1,6 +1,7 @@
 function Pen(canvasID, socket){
   this.canvas = document.getElementById(canvasID)
-  this.ctx = this.canvas.getContext('2d'),
+  this.color='#000000';
+  this.ctx = this.canvas.getContext('2d');
   this.ctx.lineWidth=2;
   this.drawing = false;
   this.canvas.addEventListener('mousedown', this.begin())
@@ -34,6 +35,7 @@ Pen.prototype.moveTo = function(x,y){
   return function(e){
     if(!$this.drawing)return;
     var pos = $this.getMousePos(e);
+    $this.ctx.strokeStyle = $this.color;
     $this.ctx.beginPath();
     $this.ctx.moveTo($this.lastpos.x, $this.lastpos.y);
     $this.ctx.lineTo(pos.x, pos.y);
@@ -44,7 +46,7 @@ Pen.prototype.moveTo = function(x,y){
       fromY: $this.lastpos.y,
       toX: pos.x,
       toY: pos.y,
-      color: $this.ctx.strokeStyle
+      color: $this.color
     })
     $this.lastpos = $this.getMousePos(e);
   }
