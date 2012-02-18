@@ -4,6 +4,10 @@ body{
   overflow:hidden;
 }
 
+canvas{
+  cursor:cell; 
+}
+
 .toolbar{
   position:fixed;
   top: 10px;

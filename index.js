@@ -4,6 +4,16 @@ var app = require('http').createServer(handler)
 
 app.listen(8000);
 
+console.log('Creating map');
+var map = {}
+for(var x=0;x<100;x++){
+  if(!map[x]) map[x] = {}
+  for(var y=0;y<100;y++){
+    map[x][y] = '#ffffff';
+  }
+}
+console.log('Map created');
+
 function route(path){
   switch(path){
     case '/': return 'index.html';
@@ -27,6 +37,13 @@ function handler(req, res) {
 
 io.sockets.on('connection', function(socket){
   socket.on('draw', function(data){
+    map[data.x][data.y] = data.color
     socket.broadcast.emit('drawn', data);
-  })
+  });
+  socket.on('ready', function(){
+    for(var i in map){
+      var row = {};row[i] = map[i];
+      socket.emit('setup', row)
+    }
+  });
 })
